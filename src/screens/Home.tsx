@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Box, Flex, Text, StatusBar, useTheme } from 'native-base';
+import { Box, Flex, Text, StatusBar, useTheme, Spinner } from 'native-base';
 import Animated, {
   useSharedValue,
   withSpring,
@@ -14,6 +14,8 @@ import { convertDateToString } from '../utils/date';
 import Navigation from '../components/Navigation';
 import { ScreenIndex } from '../models/types';
 import HomeTab from '../components/HomeTab';
+import WelcomeContent from '../components/WelcomeContent';
+import HistoryTab from '../components/HistoryTab';
 
 type ViewableTypes = {
   viewableItems: ViewToken[];
@@ -22,15 +24,23 @@ type ViewableTypes = {
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
+const secondsInADay = 1000 * 60 * 60 * 24;
+
 const Home = () => {
   const { colors } = useTheme();
-  const { goal, logs, todaysProgress } = useFirebase();
+  const { goal, todaysProgress } = useFirebase();
   const [screenIndex, setScreenIndex] = useState<ScreenIndex>(0);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const modalAnimation = useSharedValue(0);
   const welcomeAnimation = useSharedValue(0);
 
   const flatListRef = useRef<FlatList>(null);
+
+  const today = new Date();
+  const deadline: Date = goal ? goal.deadline.toDate() : today;
+  const remainingDays = Math.ceil(
+    Math.abs(deadline.valueOf() - today.valueOf()) / secondsInADay,
+  );
 
   const borderStyle = useAnimatedStyle(() => {
     return {
@@ -76,6 +86,14 @@ const Home = () => {
     setModalOpen(prev => !prev);
   };
 
+  if (!goal) {
+    return (
+      <Box flex={1}>
+        <Spinner></Spinner>
+      </Box>
+    );
+  }
+
   return (
     <>
       <StatusBar barStyle='dark-content' />
@@ -110,7 +128,7 @@ const Home = () => {
                 goal={goal}
               />
             ) : (
-              <></>
+              <HistoryTab />
             );
           }}
         />
@@ -121,6 +139,11 @@ const Home = () => {
           welcomeAnimation={welcomeAnimation}
           flatListRef={flatListRef}
           borderStyle={borderStyle}
+        />
+
+        <WelcomeContent
+          welcomeAnimation={welcomeAnimation}
+          remainingDays={remainingDays}
         />
       </AnimatedBox>
     </>

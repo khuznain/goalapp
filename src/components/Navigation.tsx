@@ -16,9 +16,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import firestore from '@react-native-firebase/firestore';
 import { ScreenIndex } from '../models/types';
-import HomeIcon from '../assets/icons/Home';
 import CalendarIcon from '../assets/icons/Calendar';
 import MinusIcon from '../assets/icons/Minus';
+import HomeIcon from '../assets/icons/Home';
 import PlusIcon from '../assets/icons/Plus';
 import config from '../../config';
 
@@ -212,6 +212,7 @@ const Navigation: React.FC<Props> = ({
           height='90%'
           variant='ghost'
           bg='white'
+          onPress={addTimeLog}
           borderRadius={10}
           _text={{ color: 'text.800', fontSize: 18 }}
         >

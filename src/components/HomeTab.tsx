@@ -8,17 +8,16 @@ import {
   Box,
   Spinner,
 } from 'native-base';
+import { Dimensions } from 'react-native';
 import Animated, {
   interpolate,
   SharedValue,
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
-import { Dimensions } from 'react-native';
-import CircularProgress from 'react-native-circular-progress-indicator';
-//
-import { convertDateToString } from '../utils/date';
 import { IGoal } from '../models/types';
+import CircularProgress from 'react-native-circular-progress-indicator';
+import { convertDateToString } from '../utils/date';
 
 type Props = {
   goal: IGoal | undefined;
@@ -70,7 +69,7 @@ const HomeTab: React.FC<Props> = ({
   const { dayGoal, deadline, name, description } = goal;
 
   return (
-    <VStack alignItems='center' justifyContent='center' w={width}>
+    <VStack alignItems={'center'} justifyContent='center' w={width}>
       <Animated.View
         style={circleStyle}
         onTouchEnd={() =>
@@ -84,13 +83,13 @@ const HomeTab: React.FC<Props> = ({
           borderColor={'blue.400'}
         >
           <CircularProgress
-            radius={width / 3}
-            duration={1000}
             value={todaysProgress > dayGoal ? dayGoal : todaysProgress}
             progressFormatter={() => {
               'worklet';
               return todaysProgress;
             }}
+            radius={width / 3}
+            duration={1000}
             circleBackgroundColor={colors.dark['50']}
             activeStrokeColor={colors.lightBlue['500']}
             activeStrokeSecondaryColor={colors.blue['700']}
@@ -98,8 +97,8 @@ const HomeTab: React.FC<Props> = ({
             inActiveStrokeWidth={20}
             inActiveStrokeColor={colors.dark['50']}
             maxValue={dayGoal}
-            title='Goal X hours'
-            titleColor='white'
+            title={`🏆 Goal ${dayGoal} hours`}
+            titleColor={'white'}
             titleStyle={{
               fontWeight: 'bold',
               color: colors.text['400'],
@@ -115,10 +114,10 @@ const HomeTab: React.FC<Props> = ({
         {name}
       </AnimatedHeading>
       <AnimatedText
-        mt={8}
-        px='10%'
-        textAlign='center'
+        mt={1}
         color='text.800'
+        px='10%'
+        textAlign={'center'}
         style={itemStyle}
       >
         {description}
