@@ -157,7 +157,7 @@ const Navigation: React.FC<Props> = ({
           _pressed={{ opacity: 0.7 }}
           onPress={() => navigationList(1)}
         >
-          <CalendarIcon fill={colorFill(0)} />
+          <CalendarIcon fill={colorFill(1)} />
         </Pressable>
       </AnimatedHStack>
       <AnimatedHStack
